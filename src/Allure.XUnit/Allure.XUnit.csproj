@@ -1,0 +1,20 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <IsPackable>true</IsPackable>
+        <TargetFramework>netcoreapp2.0</TargetFramework>
+        <Title>Allure.XUnit</Title>
+        <Authors>Shumakov Ivan</Authors>
+        <Description>Allure.XUnit</Description>
+        <PackageProjectUrl>https://github.com/TinkoffCreditSystems/Allure.XUnit</PackageProjectUrl>
+        <RepositoryUrl>https://github.com/TinkoffCreditSystems/Allure.XUnit</RepositoryUrl>
+        <PackageTags>allure; xunit;</PackageTags>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="Allure.Commons" Version="3.0.0.10" />
+        <PackageReference Include="xunit.core" Version="2.4.1" />
+        <PackageReference Include="xunit.runner.reporters" Version="2.4.1" />
+    </ItemGroup>
+
+</Project>
