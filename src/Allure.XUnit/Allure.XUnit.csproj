@@ -3,6 +3,12 @@
     <PropertyGroup>
         <IsPackable>true</IsPackable>
         <TargetFramework>netcoreapp2.0</TargetFramework>
+        <Title>Allure.XUnit</Title>
+        <Authors>Shumakov Ivan</Authors>
+        <Description>Allure.XUnit</Description>
+        <PackageProjectUrl>https://github.com/TinkoffCreditSystems/Allure.XUnit</PackageProjectUrl>
+        <RepositoryUrl>https://github.com/TinkoffCreditSystems/Allure.XUnit</RepositoryUrl>
+        <PackageTags>allure; xunit;</PackageTags>
     </PropertyGroup>
 
     <ItemGroup>
