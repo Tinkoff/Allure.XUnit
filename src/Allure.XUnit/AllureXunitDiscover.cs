@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Allure.XUnit;
 using Xunit.Abstractions;
 using Xunit.Sdk;
 
@@ -18,10 +19,7 @@ namespace Allure.Xunit
         {
             var testCase = new AllureXunitTestCase(_diagnosticMessageSink, discoveryOptions.MethodDisplayOrDefault(),
                 TestMethodDisplayOptions.None, testMethod);
-          
-            CustomMessageSink.AddTestCaseHandling(testCase);
-            
-            yield return testCase;
+            return new[] { testCase };
         }
     }
 }

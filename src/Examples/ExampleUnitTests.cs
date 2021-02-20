@@ -1,7 +1,10 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Threading.Tasks;
 using Allure.Commons;
+using Allure.Xunit;
+using Allure.XUnit;
 using Allure.Xunit.Attributes;
 using Xunit;
 
@@ -49,10 +52,10 @@ namespace Examples
         [AllureSubSuite("NoAssert2")]
         [AllureLink("Google", "https://google.com")]
         [AllureEpic("TestEpic")]
-        [AllureAddAttachment(@"./allureConfig.json")]
-        public void Test2()
+        public async Task Test2()
         {
             Assert.True(1 == 1);
+            await AllureAttachments.File("allureConfig", @"./allureConfig.json");
         }
 
         [AllureXunit]
@@ -67,7 +70,6 @@ namespace Examples
         [AllureSubSuite("NoAssert3")]
         [AllureLink("Google", "https://google.com")]
         [AllureEpic("TestEpic")]
-        [AllureAddAttachment(typeof(AllureGetAttachmentPath))]
         public void Test3()
         {
             Assert.Empty(new List<int>() {1, 2, 3});

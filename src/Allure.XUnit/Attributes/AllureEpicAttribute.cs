@@ -3,7 +3,7 @@ using System;
 namespace Allure.Xunit.Attributes
 {
     [AttributeUsage(AttributeTargets.Method)]
-    public class AllureEpicAttribute: Attribute, IAllureInfo
+    public class AllureEpicAttribute : Attribute, IAllureInfo
     {
         public AllureEpicAttribute(string epic)
         {
@@ -11,6 +11,5 @@ namespace Allure.Xunit.Attributes
         }
 
         public string Epic { get; }
-        
     }
 }

@@ -1,26 +1,32 @@
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
+﻿using System.ComponentModel;
 using System.Threading;
 using System.Threading.Tasks;
 using Allure.Commons;
+using Allure.Xunit;
 using Xunit.Abstractions;
 using Xunit.Sdk;
-using TestMethodDisplay = Xunit.Sdk.TestMethodDisplay;
-using TestMethodDisplayOptions = Xunit.Sdk.TestMethodDisplayOptions;
 
-namespace Allure.Xunit
+namespace Allure.XUnit
 {
-    public class AllureXunitTestCase : XunitTestCase
+    internal class AllureXunitTestCase : XunitTestCase, ITestResultAccessor
     {
-        private AllureXunitHelper _allureXunitHelper;
-        private RunSummary _runSummary;
-        private ExceptionAggregator _aggregateException;
+        private TestResult _testResult;
+        public TestResultContainer TestResultContainer { get; set; }
 
-        private ITestResultMessage TestResultMessage { get; set; }
+        public TestResult TestResult
+        {
+            get => _testResult;
+            set
+            {
+                Steps.Current = value;
+                _testResult = value;
+            }
+        }
 
+#pragma warning disable CS0618
         [EditorBrowsable(EditorBrowsableState.Never)]
         public AllureXunitTestCase()
+#pragma warning restore
         {
         }
 
@@ -30,53 +36,6 @@ namespace Allure.Xunit
             : base(diagnosticMessageSink, testMethodDisplay, defaultMethodDisplayOptions, testMethod,
                 testMethodArguments)
         {
-            _allureXunitHelper = new AllureXunitHelper(this);
-        }
-
-        public void OnMessage(IMessageSinkMessage message)
-        {
-            switch (message)
-            {
-                case ITestPassed testPassed:
-                case ITestFailed testFailed:
-                    TestResultMessage = (TestResultMessage) message;
-                    return;
-                case ITestCaseFinished testFinished:
-                    break;
-
-                default:
-                    return;
-            }
-        }
-
-        public void Stop()
-        {
-            switch (TestResultMessage)
-            {
-                case ITestPassed testPassed
-                    when (testPassed?.TestCase.UniqueID == UniqueID):
-                    _allureXunitHelper.StartAll(true);
-                    _allureXunitHelper.StatusDetails.Add(UniqueID,
-                        new StatusDetails()
-                        {
-                            message = testPassed.Output
-                        });
-                    break;
-                case ITestFailed testFailed
-                    when (testFailed?.TestCase.UniqueID == UniqueID):
-                    _allureXunitHelper.StartAll(true);
-                    _allureXunitHelper.StatusDetails.Add(UniqueID,
-                        new StatusDetails()
-                        {
-                            trace = string.Join(Environment.NewLine, testFailed.StackTraces),
-                            message = string.Join(Environment.NewLine, testFailed.Messages)
-                        });
-                    break;
-                default:
-                    return;
-            }
-
-            _allureXunitHelper.StopAll(_runSummary, _aggregateException);
         }
 
         public override async Task<RunSummary> RunAsync(IMessageSink diagnosticMessageSink,
@@ -85,12 +44,10 @@ namespace Allure.Xunit
             ExceptionAggregator aggregator,
             CancellationTokenSource cancellationTokenSource)
         {
-            var summary = await base.RunAsync(diagnosticMessageSink, messageBus, constructorArguments,
-                aggregator, cancellationTokenSource);
-            
-            _runSummary = summary;
-            _aggregateException = aggregator;
-
+            Steps.TestResultAccessor = this;
+            messageBus = new AllureMessageBus(messageBus);
+            var summary = await base.RunAsync(diagnosticMessageSink, messageBus, constructorArguments, aggregator,
+                cancellationTokenSource);
             return summary;
         }
     }
