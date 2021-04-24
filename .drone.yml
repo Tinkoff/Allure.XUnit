@@ -8,18 +8,35 @@ steps:
   - cd src
   - dotnet build Allure.XUnit.sln -c Release
 
-- name: push
+- name: allure_xunit_push
   image: mcr.microsoft.com/dotnet/core/sdk:2.2
   environment:
     NUGET_APIKEY:
       from_secret: NUGET_API
   commands:
   - cd src
-  - dotnet pack  Allure.XUnit/Allure.XUnit.csproj -c Release  /p:PackageVersion=$DRONE_TAG
+  - dotnet pack  Allure.XUnit/Allure.XUnit.csproj -c Release  /p:PackageVersion=${DRONE_TAG##core-}
   - dotnet nuget push **/Allure.XUnit.*.nupkg -k $NUGET_APIKEY -s https://www.nuget.org
   when:
     event:
     - tag
+	ref:
+	- refs/tags/core-*
+
+- name: step_extensions_push
+  image: mcr.microsoft.com/dotnet/core/sdk:2.2
+  environment:
+    NUGET_APIKEY:
+      from_secret: STEP_EXTENSIONS_NUGET_API
+  commands:
+  - cd src
+  - dotnet pack  Allure.XUnit/Allure.Xunit.StepExtensions.csproj -c Release  /p:PackageVersion=${DRONE_TAG##step-extensions-}
+  - dotnet nuget push **/Allure.Xunit.StepExtensions.*.nupkg -k $RUS_ART_NUGET_API -s https://www.nuget.org
+  when:
+    event:
+    - tag
+	ref:
+	- refs/tags/step-extensions-*
 
 trigger:
   event:
