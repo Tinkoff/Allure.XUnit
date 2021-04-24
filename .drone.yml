@@ -20,8 +20,8 @@ steps:
   when:
     event:
     - tag
-	ref:
-	- refs/tags/core-*
+    ref:
+    - refs/tags/core-*
 
 - name: step_extensions_push
   image: mcr.microsoft.com/dotnet/core/sdk:2.2
@@ -35,14 +35,11 @@ steps:
   when:
     event:
     - tag
-	ref:
-	- refs/tags/step-extensions-*
+    ref:
+    - refs/tags/step-extensions-*
 
 trigger:
   event:
   - pull_request
   - push
   - tag
-
-
-
