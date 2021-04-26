@@ -1,13 +1,15 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-
         <IsPackable>false</IsPackable>
-
-        <TargetFramework>netcoreapp2.2</TargetFramework>
+        <TargetFramework>net5.0</TargetFramework>
     </PropertyGroup>
 
     <ItemGroup>
+        <PackageReference Include="Fody" Version="6.3.0">
+            <PrivateAssets>all</PrivateAssets>
+        </PackageReference>
+        <PackageReference Include="MethodBoundaryAspect.Fody" Version="2.0.138" />
         <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.5.0" />
         <PackageReference Include="xunit" Version="2.4.1" />
         <PackageReference Include="coverlet.collector" Version="1.2.0" />
@@ -21,9 +23,8 @@
     </ItemGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\Allure.Xunit.StepExtensions\Allure.Xunit.StepExtensions.csproj" />
       <ProjectReference Include="..\Allure.XUnit\Allure.XUnit.csproj" />
     </ItemGroup>
-    
-    
 
 </Project>

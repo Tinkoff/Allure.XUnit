@@ -1,6 +1,6 @@
 namespace Allure.Xunit
 {
-    public interface IAllureInfo
+    internal interface IAllureInfo
     {
     }
 }
