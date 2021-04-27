@@ -3,13 +3,13 @@ name: default
 
 steps:
 - name: build
-  image: mcr.microsoft.com/dotnet/core/sdk:2.2
+  image: mcr.microsoft.com/dotnet/sdk
   commands:
   - cd src
   - dotnet build Allure.XUnit.sln -c Release
 
 - name: allure_xunit_push
-  image: mcr.microsoft.com/dotnet/core/sdk:2.2
+  image: mcr.microsoft.com/dotnet/sdk
   environment:
     NUGET_APIKEY:
       from_secret: NUGET_API
@@ -24,7 +24,7 @@ steps:
     - refs/tags/core-*
 
 - name: step_extensions_push
-  image: mcr.microsoft.com/dotnet/core/sdk:2.2
+  image: mcr.microsoft.com/dotnet/sdk
   environment:
     NUGET_APIKEY:
       from_secret: STEP_EXTENSIONS_NUGET_API
