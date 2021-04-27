@@ -15,11 +15,8 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="MethodBoundaryAspect.Fody" Version="2.0.138"/>
-    </ItemGroup>
-
-    <ItemGroup>
-        <ProjectReference Include="..\Allure.XUnit\Allure.XUnit.csproj"/>
+        <PackageReference Include="Allure.XUnit" Version="1.1.2" />
+        <PackageReference Include="MethodBoundaryAspect.Fody" Version="2.0.138" />
     </ItemGroup>
 
 </Project>
