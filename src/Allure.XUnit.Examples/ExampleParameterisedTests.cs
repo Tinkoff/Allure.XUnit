@@ -4,7 +4,7 @@ using System.IO;
 using Allure.Xunit.Attributes;
 using Xunit;
 
-namespace Examples
+namespace Allure.XUnit.Examples
 {
     public class ExampleParameterisedTests
     {

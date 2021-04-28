@@ -1,12 +1,10 @@
-﻿using System;
-using System.Threading.Tasks;
-using Allure.Xunit;
+﻿using System.Threading.Tasks;
 using Allure.XUnit;
 using Allure.Xunit.Attributes;
 using Allure.Xunit.StepAttribute;
 using Xunit;
 
-namespace Examples
+namespace Allure.Xunit.StepExtensions.Examples
 {
     public class ExampleSteps : IAsyncLifetime
     {
