@@ -17,6 +17,18 @@ namespace Examples
                 new object[] {int.MinValue, -1, int.MaxValue},
             };
 
+        public static IEnumerable<object[]> TestClassData = new[]
+        {
+            new object[] {new MyTestClass {Test = 1}, new MyTestClass {Test = 1}},
+            new object[] {new MyTestClass {Test = -1}, new MyTestClass {Test = -1}},
+            new object[] {new MyTestClass {Test = 10}, new MyTestClass {Test = 10}}
+        };
+
+        public class MyTestClass
+        {
+            public int Test { get; set; }
+        }
+
         public ExampleParameterisedTests()
         {
             Environment.CurrentDirectory = Path.GetDirectoryName(GetType().Assembly.Location);
@@ -55,6 +67,16 @@ namespace Examples
         public void TestTheory(int a, int b)
         {
             Assert.Equal(a, b);
+        }
+
+        [AllureXunitTheory]
+        [AllureParentSuite("AllTests")]
+        [AllureSuite("Test AllureXunitTheory")]
+        [AllureSubSuite("Test MemberData Class")]
+        [MemberData(nameof(TestClassData))]
+        public void TestTheoryWithMemberData(MyTestClass a, MyTestClass b)
+        {
+            Assert.Equal(a.Test, b.Test);
         }
     }
 }

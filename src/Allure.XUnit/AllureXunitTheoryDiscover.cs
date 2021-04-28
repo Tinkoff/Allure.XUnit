@@ -18,8 +18,8 @@ namespace Allure.Xunit
 
             foreach (var item in testCases)
             {
-                var testCase = new AllureXunitTestCase(DiagnosticMessageSink, discoveryOptions.MethodDisplayOrDefault(),
-                    TestMethodDisplayOptions.None, testMethod, item.TestMethodArguments);
+                var testCase = new AllureXunitTheoryTestCase(DiagnosticMessageSink, discoveryOptions.MethodDisplayOrDefault(),
+                    TestMethodDisplayOptions.All, testMethod);
                 yield return testCase;
             }
         }
