@@ -36,6 +36,7 @@ namespace Allure.XUnit.Examples
         [AllureEpic("TestEpic")]
         public void Test1()
         {
+            Steps.Step("Nested step", () => { });
             Assert.True(1 != 1);
         }
 
