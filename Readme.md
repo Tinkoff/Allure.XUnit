@@ -33,7 +33,7 @@ There are two ways to describe steps:
 1. Use [`Steps`](src/Allure.XUnit/Steps.cs) class for functional or imperative approach.
 2. Use `AllureStepAttribute`, `AllureBeforeAttribute`, `AllureAfterAttribute` for declarative approach.
 
-See [Examples](src/Examples/ExampleSteps.cs).
+See [Examples](src/Allure.Xunit.StepExtensions.Examples/ExampleSteps.cs).
 
 ## Attachments
 Use [`AllureAttachments`](src/Allure.XUnit/AllureAttachments.cs) class with it's methods.
@@ -49,7 +49,7 @@ using similar [docker-compose file](./src/Examples/docker-compose.yaml).
 
 ## Examples
 
-[Examples](src/Examples)
+See [Examples](src/Allure.XUnit.Examples)
 
 ## Author
 [Shumakov Ivan](https://github.com/IvanWR1995)

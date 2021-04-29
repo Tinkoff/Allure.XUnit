@@ -8,7 +8,7 @@ using Allure.XUnit;
 using Allure.Xunit.Attributes;
 using Xunit;
 
-namespace Examples
+namespace Allure.XUnit.Examples
 {
     public class ExampleUnitTests : IDisposable
     {
@@ -36,6 +36,7 @@ namespace Examples
         [AllureEpic("TestEpic")]
         public void Test1()
         {
+            Steps.Step("Nested step", () => { });
             Assert.True(1 != 1);
         }
 
