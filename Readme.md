@@ -45,7 +45,7 @@ Just run `dotnet test`.
 `allure-results` directory with result appears after running tests in target directory.
 
 Execute command ```allure serve ./ ``` in allure-results directory to local viewing tests. Also you can browse result
-using similar [docker-compose file](./src/Examples/docker-compose.yaml).
+using similar [docker-compose file](./src/Allure.XUnit.Examples/docker-compose.yaml).
 
 ## Examples
 
