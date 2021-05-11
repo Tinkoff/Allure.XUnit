@@ -2,7 +2,7 @@ using System;
 
 namespace Allure.Xunit.Attributes
 {
-    [AttributeUsage(AttributeTargets.Method)]
+    [AttributeUsage(AttributeTargets.Method | AttributeTargets.Class)]
     public class AllureStoryAttribute : Attribute, IAllureInfo
     {
         public AllureStoryAttribute(params string[] story)

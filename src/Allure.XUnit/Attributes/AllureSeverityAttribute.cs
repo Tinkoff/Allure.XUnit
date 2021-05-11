@@ -3,7 +3,7 @@ using Allure.Commons;
 
 namespace Allure.Xunit.Attributes
 {
-    [AttributeUsage(AttributeTargets.Method)]
+    [AttributeUsage(AttributeTargets.Method | AttributeTargets.Class)]
     public class AllureSeverityAttribute : Attribute, IAllureInfo
     {
         public AllureSeverityAttribute(SeverityLevel severity = SeverityLevel.normal)

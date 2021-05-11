@@ -2,7 +2,7 @@ using System;
 
 namespace Allure.Xunit.Attributes
 {
-    [AttributeUsage(AttributeTargets.Method, AllowMultiple = true)]
+    [AttributeUsage(AttributeTargets.Method | AttributeTargets.Class, AllowMultiple = true)]
     public class AllureLabelAttribute : Attribute, IAllureInfo
     {
         public AllureLabelAttribute(string label, string value)

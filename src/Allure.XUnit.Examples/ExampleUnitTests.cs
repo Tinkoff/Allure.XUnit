@@ -10,6 +10,15 @@ using Xunit;
 
 namespace Allure.XUnit.Examples
 {
+    [AllureOwner("Tinkoff")]
+    [AllureTag("TAG-ALL")]
+    [AllureEpic("TestEpic")]
+    [AllureParentSuite("AllTests")]
+    [AllureSuite("Suite Name")]
+    [AllureSubSuite("Subsuite Name")]
+    [AllureSeverity(SeverityLevel.minor)]
+    [AllureLink("Google", "https://google.com")]
+    [AllureLink("Tinkoff", "https://tinkoff.ru")]
     public class ExampleUnitTests : IDisposable
     {
         public void Dispose()
@@ -21,19 +30,11 @@ namespace Allure.XUnit.Examples
             Environment.CurrentDirectory = Path.GetDirectoryName(GetType().Assembly.Location);
         }
     
-        [AllureXunit]
-        [AllureDescription("My test description")]
-        [AllureParentSuite("AllTests")]
+        [AllureXunit(DisplayName = "Test that 1 is not equals 1")]
+        [AllureDescription("My long test description; Lorem ipsum dolor sit amet.")]
         [AllureFeature("qwerty", "123")]
         [AllureTag("TAG-1")]
-        [AllureSeverity(SeverityLevel.critical)]
         [AllureIssue("ISSUE-1")]
-        [AllureOwner("MyOwner")]
-        [AllureSuite("PassedSuite")]
-        [AllureSubSuite("NoAssert")]
-        [AllureSubSuite("Simple")]
-        [AllureLink("Google", "https://google.com")]
-        [AllureEpic("TestEpic")]
         public void Test1()
         {
             Steps.Step("Nested step", () => { });
@@ -41,39 +42,28 @@ namespace Allure.XUnit.Examples
         }
 
 
-        [AllureXunit]
-        [AllureDescription("My test description2")]
-        [AllureParentSuite("AllTests")]
-        [AllureFeature("qwerty2", "1232")]
-        [AllureTag("TAG-12")]
+        [AllureXunit(DisplayName = "Test that 1 is equals 1")]
         [AllureSeverity(SeverityLevel.critical)]
-        [AllureIssue("ISSUE-12")]
-        [AllureOwner("MyOwner")]
-        [AllureSuite("PassedSuite")]
-        [AllureSubSuite("NoAssert2")]
-        [AllureLink("Google", "https://google.com")]
-        [AllureEpic("TestEpic")]
         public async Task Test2()
         {
             Assert.True(1 == 1);
             await AllureAttachments.File("allureConfig", @"./allureConfig.json");
         }
 
-        [AllureXunit]
-        [AllureDescription("My test description3")]
-        [AllureParentSuite("AllTests")]
-        [AllureFeature("qwerty3", "1232")]
-        [AllureTag("TAG-12")]
-        [AllureSeverity(SeverityLevel.critical)]
-        [AllureIssue("ISSUE-12")]
-        [AllureOwner("MyOwner")]
-        [AllureSuite("PassedSuite")]
-        [AllureSubSuite("NoAssert3")]
-        [AllureLink("Google", "https://google.com")]
-        [AllureEpic("TestEpic")]
+        [AllureXunit(DisplayName = "Another Test")]
         public void Test3()
         {
             Assert.Empty(new List<int>() {1, 2, 3});
+        }
+
+        [AllureXunit]
+        [AllureTag("TAG-5")]
+        [AllureTag("TAG-6")]
+        [AllureTag("TAG-7")]
+        [AllureTag("TAG-8", "TAG-9", "TAG-10")]
+        public void TestMultipleTags()
+        {
+            Assert.True(!false);
         }
     }
 }

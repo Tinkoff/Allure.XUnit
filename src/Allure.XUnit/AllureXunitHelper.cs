@@ -1,5 +1,7 @@
 using System;
+using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using Allure.Commons;
 using Allure.XUnit;
 using Allure.Xunit.Attributes;
@@ -115,17 +117,32 @@ namespace Allure.Xunit
             AllureMessageBus.TestOutputHelper.Value.WriteLine("╬═══════════════");
         }
 
+        private static void AddDistinct(this List<Label> labels, Label labelToInsert)
+        {
+            var existingLabel = labels.FirstOrDefault(label => label.name.Equals(labelToInsert.name));
+            if (existingLabel != null)
+            {
+                existingLabel.value = labelToInsert.value;
+            }
+            else
+            {
+                labels.Add(labelToInsert);
+            }
+        }
+
         private static void UpdateTestDataFromAttributes(TestResult testResult, ITestCase testCase)
         {
-            var attributes = testCase.TestMethod.Method.GetCustomAttributes(typeof(IAllureInfo));
+            var classAttributes = testCase.TestMethod.TestClass.Class.GetCustomAttributes(typeof(IAllureInfo));
+            var methodAttributes = testCase.TestMethod.Method.GetCustomAttributes(typeof(IAllureInfo));
 
-            foreach (var attribute in attributes)
+            foreach (var attribute in classAttributes.Concat(methodAttributes))
             {
                 switch (((IReflectionAttributeInfo) attribute).Attribute)
                 {
                     case AllureFeatureAttribute featureAttribute:
                         foreach (var feature in featureAttribute.Features)
                         {
+                            // Features can be added multiple times without overwriting
                             testResult.labels.Add(Label.Feature(feature));
                         }
 
@@ -140,40 +157,42 @@ namespace Allure.Xunit
                         break;
 
                     case AllureOwnerAttribute ownerAttribute:
-                        testResult.labels.Add(Label.Owner(ownerAttribute.Owner));
+                        testResult.labels.AddDistinct(Label.Owner(ownerAttribute.Owner));
                         break;
 
                     case AllureSuiteAttribute suiteAttribute:
-                        testResult.labels.Add(Label.Suite(suiteAttribute.Suite));
+                        testResult.labels.AddDistinct(Label.Suite(suiteAttribute.Suite));
                         break;
 
                     case AllureSubSuiteAttribute subSuiteAttribute:
-                        testResult.labels.Add(Label.SubSuite(subSuiteAttribute.SubSuite));
+                        testResult.labels.AddDistinct(Label.SubSuite(subSuiteAttribute.SubSuite));
                         break;
 
                     case AllureEpicAttribute epicAttribute:
-                        testResult.labels.Add(Label.Epic(epicAttribute.Epic));
+                        testResult.labels.AddDistinct(Label.Epic(epicAttribute.Epic));
                         break;
 
                     case AllureTagAttribute tagAttribute:
                         foreach (var tag in tagAttribute.Tags)
                         {
+                            // Tags can be added multiple times without overwriting
                             testResult.labels.Add(Label.Tag(tag));
                         }
 
                         break;
 
                     case AllureSeverityAttribute severityAttribute:
-                        testResult.labels.Add(Label.Severity(severityAttribute.Severity));
+                        testResult.labels.AddDistinct(Label.Severity(severityAttribute.Severity));
                         break;
 
                     case AllureParentSuiteAttribute parentSuiteAttribute:
-                        testResult.labels.Add(Label.ParentSuite(parentSuiteAttribute.ParentSuite));
+                        testResult.labels.AddDistinct(Label.ParentSuite(parentSuiteAttribute.ParentSuite));
                         break;
 
                     case AllureStoryAttribute storyAttribute:
                         foreach (var story in storyAttribute.Stories)
                         {
+                            // Stories can be added multiple times without overwriting
                             testResult.labels.Add(Label.Story(story));
                         }
 
@@ -184,7 +203,7 @@ namespace Allure.Xunit
                         break;
 
                     case AllureLabelAttribute labelAttribute:
-                        testResult.labels.Add(new()
+                        testResult.labels.AddDistinct(new()
                         {
                             name = labelAttribute.Label,
                             value = labelAttribute.Value
