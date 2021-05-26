@@ -12,15 +12,24 @@ namespace Allure.Xunit
         }
 
         public override IEnumerable<IXunitTestCase> Discover(ITestFrameworkDiscoveryOptions discoveryOptions,
-            ITestMethod testMethod, IAttributeInfo factAttribute)
+            ITestMethod testMethod, IAttributeInfo thoeryAttribute)
         {
-            var testCases = base.Discover(discoveryOptions, testMethod, factAttribute);
+            var testCases = base.Discover(discoveryOptions, testMethod, thoeryAttribute);
 
             foreach (var item in testCases)
             {
-                var testCase = new AllureXunitTheoryTestCase(DiagnosticMessageSink, discoveryOptions.MethodDisplayOrDefault(),
-                    TestMethodDisplayOptions.All, testMethod);
-                yield return testCase;
+                if (item.TestMethodArguments is not null)
+                {
+                    var testCase = new AllureXunitTestCase(DiagnosticMessageSink, discoveryOptions.MethodDisplayOrDefault(),
+                        TestMethodDisplayOptions.None, testMethod, item.TestMethodArguments);
+                    yield return testCase;
+                }
+                else
+                {
+                    var testCase = new AllureXunitTheoryTestCase(DiagnosticMessageSink, discoveryOptions.MethodDisplayOrDefault(),
+                        TestMethodDisplayOptions.None, testMethod);
+                    yield return testCase;
+                }
             }
         }
     }
