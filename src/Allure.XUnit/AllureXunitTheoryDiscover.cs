@@ -1,7 +1,10 @@
 using System.Collections.Generic;
+using System.Linq;
 using Allure.XUnit;
+using Xunit;
 using Xunit.Abstractions;
 using Xunit.Sdk;
+using TestMethodDisplayOptions = Xunit.Sdk.TestMethodDisplayOptions;
 
 namespace Allure.Xunit
 {
@@ -18,9 +21,28 @@ namespace Allure.Xunit
 
             foreach (var item in testCases)
             {
-                var testCase = new AllureXunitTestCase(DiagnosticMessageSink, discoveryOptions.MethodDisplayOrDefault(),
-                    TestMethodDisplayOptions.None, testMethod, item.TestMethodArguments);
-                yield return testCase;
+               var dataAttribute = item.TestMethod.Method
+                   .GetCustomAttributes(typeof(DataAttribute)).FirstOrDefault() as IReflectionAttributeInfo;
+
+               var memberDataAttribute = dataAttribute?.Attribute as MemberDataAttribute;
+               if (memberDataAttribute is not null && item.TestMethodArguments is null)
+               {
+                   var argumentSets = memberDataAttribute
+                       .GetData(item.TestMethod.Method.ToRuntimeMethod());
+
+                   foreach (var arguments in argumentSets)
+                   {
+                       var testCase  = new AllureXunitTestCase(DiagnosticMessageSink, discoveryOptions.MethodDisplayOrDefault(),
+                           TestMethodDisplayOptions.None, testMethod, arguments);
+                       yield return testCase;
+                   }
+               }
+               else
+               {
+                   var testCase = new AllureXunitTestCase(DiagnosticMessageSink, discoveryOptions.MethodDisplayOrDefault(),
+                       TestMethodDisplayOptions.None, testMethod, item.TestMethodArguments);
+                   yield return testCase;
+               }
             }
         }
     }
