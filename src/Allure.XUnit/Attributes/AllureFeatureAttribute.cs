@@ -3,11 +3,12 @@ using System;
 namespace Allure.Xunit.Attributes
 {
     [AttributeUsage(AttributeTargets.Method | AttributeTargets.Class)]
-    public class AllureFeatureAttribute : Attribute, IAllureInfo
+    public class AllureFeatureAttribute : AllureAttribute, IAllureInfo
     {
-        public AllureFeatureAttribute(params string[] feature)
+        public AllureFeatureAttribute(string[] feature, bool overwrite = false)
         {
             Features = feature;
+            Overwrite = overwrite;
         }
 
         internal string[] Features { get; }

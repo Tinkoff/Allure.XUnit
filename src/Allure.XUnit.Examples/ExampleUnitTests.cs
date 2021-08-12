@@ -4,14 +4,13 @@ using System.IO;
 using System.Threading.Tasks;
 using Allure.Commons;
 using Allure.Xunit;
-using Allure.XUnit;
 using Allure.Xunit.Attributes;
 using Xunit;
 
 namespace Allure.XUnit.Examples
 {
     [AllureOwner("Tinkoff")]
-    [AllureTag("TAG-ALL")]
+    [AllureTag(new[] {"TAG-ALL"})]
     [AllureEpic("TestEpic")]
     [AllureParentSuite("AllTests")]
     [AllureSuite("Suite Name")]
@@ -32,8 +31,8 @@ namespace Allure.XUnit.Examples
     
         [AllureXunit(DisplayName = "Test that 1 is not equals 1")]
         [AllureDescription("My long test description; Lorem ipsum dolor sit amet.")]
-        [AllureFeature("qwerty", "123")]
-        [AllureTag("TAG-1")]
+        [AllureFeature(new [] {"qwerty", "123"})]
+        [AllureTag(new[] {"TAG-1"})]
         [AllureIssue("ISSUE-1")]
         public void Test1()
         {
@@ -57,11 +56,8 @@ namespace Allure.XUnit.Examples
         }
 
         [AllureXunit]
-        [AllureTag("TAG-5")]
-        [AllureTag("TAG-6")]
-        [AllureTag("TAG-7")]
-        [AllureTag("TAG-8", "TAG-9", "TAG-10")]
-        public void TestMultipleTags()
+        [AllureTag(new[] {"TAG-8", "TAG-9", "TAG-10"}, true)]
+        public void TestMultipleTagsWithOverwrite()
         {
             Assert.True(!false);
         }

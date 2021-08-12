@@ -117,16 +117,26 @@ namespace Allure.Xunit
             AllureMessageBus.TestOutputHelper.Value.WriteLine("╬═══════════════");
         }
 
-        private static void AddDistinct(this List<Label> labels, Label labelToInsert)
+        private static void AddDistinct(this List<Label> labels, Label labelToInsert, bool overwrite)
         {
-            var existingLabel = labels.FirstOrDefault(label => label.name.Equals(labelToInsert.name));
-            if (existingLabel != null)
+            if (overwrite)
             {
-                existingLabel.value = labelToInsert.value;
+                labels.RemoveAll(label => label.name == labelToInsert.name);
             }
-            else
+            
+            labels.Add(labelToInsert);
+        }
+
+        private static void AddDistinct(this List<Label> labels, string labelName, string[] values, bool overwrite)
+        {
+            if (overwrite)
             {
-                labels.Add(labelToInsert);
+                labels.RemoveAll(label => label.name == labelName);
+            }
+
+            foreach (var value in values)
+            {
+                labels.Add(new Label {name = labelName, value = value});
             }
         }
 
@@ -140,12 +150,7 @@ namespace Allure.Xunit
                 switch (((IReflectionAttributeInfo) attribute).Attribute)
                 {
                     case AllureFeatureAttribute featureAttribute:
-                        foreach (var feature in featureAttribute.Features)
-                        {
-                            // Features can be added multiple times without overwriting
-                            testResult.labels.Add(Label.Feature(feature));
-                        }
-
+                        testResult.labels.AddDistinct("feature", featureAttribute.Features, featureAttribute.Overwrite);
                         break;
 
                     case AllureLinkAttribute linkAttribute:
@@ -157,45 +162,35 @@ namespace Allure.Xunit
                         break;
 
                     case AllureOwnerAttribute ownerAttribute:
-                        testResult.labels.AddDistinct(Label.Owner(ownerAttribute.Owner));
+                        testResult.labels.AddDistinct(Label.Owner(ownerAttribute.Owner), ownerAttribute.Overwrite);
                         break;
 
                     case AllureSuiteAttribute suiteAttribute:
-                        testResult.labels.AddDistinct(Label.Suite(suiteAttribute.Suite));
+                        testResult.labels.AddDistinct(Label.Suite(suiteAttribute.Suite), suiteAttribute.Overwrite);
                         break;
 
                     case AllureSubSuiteAttribute subSuiteAttribute:
-                        testResult.labels.AddDistinct(Label.SubSuite(subSuiteAttribute.SubSuite));
+                        testResult.labels.AddDistinct(Label.SubSuite(subSuiteAttribute.SubSuite), subSuiteAttribute.Overwrite);
                         break;
 
                     case AllureEpicAttribute epicAttribute:
-                        testResult.labels.AddDistinct(Label.Epic(epicAttribute.Epic));
+                        testResult.labels.AddDistinct(Label.Epic(epicAttribute.Epic), epicAttribute.Overwrite);
                         break;
 
                     case AllureTagAttribute tagAttribute:
-                        foreach (var tag in tagAttribute.Tags)
-                        {
-                            // Tags can be added multiple times without overwriting
-                            testResult.labels.Add(Label.Tag(tag));
-                        }
-
+                        testResult.labels.AddDistinct("tag", tagAttribute.Tags, tagAttribute.Overwrite);
                         break;
 
                     case AllureSeverityAttribute severityAttribute:
-                        testResult.labels.AddDistinct(Label.Severity(severityAttribute.Severity));
+                        testResult.labels.AddDistinct(Label.Severity(severityAttribute.Severity), true);
                         break;
 
                     case AllureParentSuiteAttribute parentSuiteAttribute:
-                        testResult.labels.AddDistinct(Label.ParentSuite(parentSuiteAttribute.ParentSuite));
+                        testResult.labels.AddDistinct(Label.ParentSuite(parentSuiteAttribute.ParentSuite), parentSuiteAttribute.Overwrite);
                         break;
 
                     case AllureStoryAttribute storyAttribute:
-                        foreach (var story in storyAttribute.Stories)
-                        {
-                            // Stories can be added multiple times without overwriting
-                            testResult.labels.Add(Label.Story(story));
-                        }
-
+                        testResult.labels.AddDistinct("story", storyAttribute.Stories, storyAttribute.Overwrite);
                         break;
 
                     case AllureDescriptionAttribute descriptionAttribute:
@@ -203,11 +198,12 @@ namespace Allure.Xunit
                         break;
 
                     case AllureLabelAttribute labelAttribute:
-                        testResult.labels.AddDistinct(new()
+                        var label = new Label()
                         {
                             name = labelAttribute.Label,
                             value = labelAttribute.Value
-                        });
+                        };
+                        testResult.labels.AddDistinct(label, labelAttribute.Overwrite);
                         break;
                 }
             }

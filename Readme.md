@@ -28,6 +28,43 @@ Allure.XUnit supports .NET Core 2.0 and later.
 All methods have to be tagged by attribute AllureXunit instead of Fact, or AllureXunitTheory instead of Theory for
 display in allure report. Other attributes are optional.
 
+### Attributes usage
+
+Most of the attributes can be used both on methods and classes.
+
+| Attribute | Method | Class |
+|:------------------|:---:|:---:|
+| AllureXunit       |  x  |     |
+| AllureDescription |  x  |     |
+| AllureParentSuite |  x  |  x  |
+| AllureFeature     |  x  |  x  |
+| AllureTag         |  x  |  x  |
+| AllureSeverity    |  x  |  x  |
+| AllureIssue       |  x  |  x  |
+| AllureOwner       |  x  |  x  |
+| AllureSuite       |  x  |  x  |
+| AllureSubSuite    |  x  |  x  |
+| AllureLink        |  x  |  x  |
+| AllureEpic        |  x  |  x  |
+| AllureLabel       |  x  |  x  |
+| AllureXunitTheory |  x  |     |
+
+To override attribute value you can use `overwrite` param in attribute definition.
+In other case multiple values will be written in test results.
+
+Example:
+```c#
+[AllureSuite("Suite A")]
+public class TestClass
+{
+    [AllureXunit(DisplayName = "Test Name")]
+    [AllureSuite("Suite B", overwrite: true))]
+    public void TestMethod
+    {
+    }
+}
+```
+
 ## Steps
 There are two ways to describe steps:
 1. Use [`Steps`](src/Allure.XUnit/Steps.cs) class for functional or imperative approach.
