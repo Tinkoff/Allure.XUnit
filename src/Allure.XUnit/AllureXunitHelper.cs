@@ -1,5 +1,7 @@
 using System;
+using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using Allure.Commons;
 using Allure.XUnit;
 using Allure.Xunit.Attributes;
@@ -115,20 +117,40 @@ namespace Allure.Xunit
             AllureMessageBus.TestOutputHelper.Value.WriteLine("╬═══════════════");
         }
 
+        private static void AddDistinct(this List<Label> labels, Label labelToInsert, bool overwrite)
+        {
+            if (overwrite)
+            {
+                labels.RemoveAll(label => label.name == labelToInsert.name);
+            }
+            
+            labels.Add(labelToInsert);
+        }
+
+        private static void AddDistinct(this List<Label> labels, string labelName, string[] values, bool overwrite)
+        {
+            if (overwrite)
+            {
+                labels.RemoveAll(label => label.name == labelName);
+            }
+
+            foreach (var value in values)
+            {
+                labels.Add(new Label {name = labelName, value = value});
+            }
+        }
+
         private static void UpdateTestDataFromAttributes(TestResult testResult, ITestCase testCase)
         {
-            var attributes = testCase.TestMethod.Method.GetCustomAttributes(typeof(IAllureInfo));
+            var classAttributes = testCase.TestMethod.TestClass.Class.GetCustomAttributes(typeof(IAllureInfo));
+            var methodAttributes = testCase.TestMethod.Method.GetCustomAttributes(typeof(IAllureInfo));
 
-            foreach (var attribute in attributes)
+            foreach (var attribute in classAttributes.Concat(methodAttributes))
             {
                 switch (((IReflectionAttributeInfo) attribute).Attribute)
                 {
                     case AllureFeatureAttribute featureAttribute:
-                        foreach (var feature in featureAttribute.Features)
-                        {
-                            testResult.labels.Add(Label.Feature(feature));
-                        }
-
+                        testResult.labels.AddDistinct("feature", featureAttribute.Features, featureAttribute.Overwrite);
                         break;
 
                     case AllureLinkAttribute linkAttribute:
@@ -140,43 +162,35 @@ namespace Allure.Xunit
                         break;
 
                     case AllureOwnerAttribute ownerAttribute:
-                        testResult.labels.Add(Label.Owner(ownerAttribute.Owner));
+                        testResult.labels.AddDistinct(Label.Owner(ownerAttribute.Owner), ownerAttribute.Overwrite);
                         break;
 
                     case AllureSuiteAttribute suiteAttribute:
-                        testResult.labels.Add(Label.Suite(suiteAttribute.Suite));
+                        testResult.labels.AddDistinct(Label.Suite(suiteAttribute.Suite), suiteAttribute.Overwrite);
                         break;
 
                     case AllureSubSuiteAttribute subSuiteAttribute:
-                        testResult.labels.Add(Label.SubSuite(subSuiteAttribute.SubSuite));
+                        testResult.labels.AddDistinct(Label.SubSuite(subSuiteAttribute.SubSuite), subSuiteAttribute.Overwrite);
                         break;
 
                     case AllureEpicAttribute epicAttribute:
-                        testResult.labels.Add(Label.Epic(epicAttribute.Epic));
+                        testResult.labels.AddDistinct(Label.Epic(epicAttribute.Epic), epicAttribute.Overwrite);
                         break;
 
                     case AllureTagAttribute tagAttribute:
-                        foreach (var tag in tagAttribute.Tags)
-                        {
-                            testResult.labels.Add(Label.Tag(tag));
-                        }
-
+                        testResult.labels.AddDistinct("tag", tagAttribute.Tags, tagAttribute.Overwrite);
                         break;
 
                     case AllureSeverityAttribute severityAttribute:
-                        testResult.labels.Add(Label.Severity(severityAttribute.Severity));
+                        testResult.labels.AddDistinct(Label.Severity(severityAttribute.Severity), true);
                         break;
 
                     case AllureParentSuiteAttribute parentSuiteAttribute:
-                        testResult.labels.Add(Label.ParentSuite(parentSuiteAttribute.ParentSuite));
+                        testResult.labels.AddDistinct(Label.ParentSuite(parentSuiteAttribute.ParentSuite), parentSuiteAttribute.Overwrite);
                         break;
 
                     case AllureStoryAttribute storyAttribute:
-                        foreach (var story in storyAttribute.Stories)
-                        {
-                            testResult.labels.Add(Label.Story(story));
-                        }
-
+                        testResult.labels.AddDistinct("story", storyAttribute.Stories, storyAttribute.Overwrite);
                         break;
 
                     case AllureDescriptionAttribute descriptionAttribute:
@@ -184,11 +198,12 @@ namespace Allure.Xunit
                         break;
 
                     case AllureLabelAttribute labelAttribute:
-                        testResult.labels.Add(new()
+                        var label = new Label()
                         {
                             name = labelAttribute.Label,
                             value = labelAttribute.Value
-                        });
+                        };
+                        testResult.labels.AddDistinct(label, labelAttribute.Overwrite);
                         break;
                 }
             }

@@ -3,7 +3,7 @@ using Allure.Commons;
 
 namespace Allure.Xunit.Attributes
 {
-    [AttributeUsage(AttributeTargets.Method, AllowMultiple = true)]
+    [AttributeUsage(AttributeTargets.Method | AttributeTargets.Class, AllowMultiple = true)]
     public class AllureLinkAttribute : Attribute, IAllureInfo
     {
         public AllureLinkAttribute(string name, string url)
