@@ -67,7 +67,9 @@ namespace Allure.XUnit
                 using var stream = new MemoryStream();
                 var assemblyName = TestMethod.TestClass.TestCollection.TestAssembly.Assembly.Name;
                 if (TestMethod.TestClass.TestCollection.TestAssembly.Assembly is IReflectionAssemblyInfo assembly)
+                {
                     assemblyName = assembly.Assembly.GetName().Name;
+                }
 
                 Write(stream, assemblyName);
                 Write(stream, TestMethod.TestClass.Class.Name);
@@ -87,8 +89,12 @@ namespace Allure.XUnit
 
                 var genericTypes = MethodGenericTypes;
                 if (genericTypes != null)
+                {
                     foreach (var genericType in genericTypes)
+                    {
                         Write(stream, TypeUtility.ConvertToSimpleTypeName(genericType));
+                    }
+                }
 
                 stream.Position = 0;
 
