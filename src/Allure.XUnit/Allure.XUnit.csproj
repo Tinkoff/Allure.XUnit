@@ -2,9 +2,9 @@
 
     <PropertyGroup>
         <IsPackable>true</IsPackable>
-        <TargetFrameworks>netcoreapp2.0;net5.0</TargetFrameworks>
+        <TargetFrameworks>netcoreapp2.0;netstandard2.1;net5.0;net6.0</TargetFrameworks>
         <Company>Tinkoff</Company>
-        <PackageVersion>1.1.2</PackageVersion>
+        <PackageVersion>1.1.3</PackageVersion>
         <Title>Allure.XUnit</Title>
         <Authors>Shumakov Ivan</Authors>
         <Description>Allure.XUnit</Description>
@@ -15,7 +15,7 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="Allure.Commons" Version="3.5.0.4" />
+        <PackageReference Include="Allure.Commons" Version="3.5.0.73" />
         <PackageReference Include="xunit.core" Version="2.4.1" />
         <PackageReference Include="xunit.runner.reporters" Version="2.4.1" />
     </ItemGroup>

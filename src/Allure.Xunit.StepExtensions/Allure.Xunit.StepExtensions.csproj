@@ -2,9 +2,9 @@
 
     <PropertyGroup>
         <IsPackable>true</IsPackable>
-        <TargetFramework>net5.0</TargetFramework>
+        <TargetFrameworks>net5.0;net6.0</TargetFrameworks>
         <Company>Tinkoff</Company>
-        <PackageVersion>1.0.0</PackageVersion>
+        <PackageVersion>1.0.1</PackageVersion>
         <RootNamespace>Allure.Xunit.StepAttribute</RootNamespace>
         <Authors>Ruslan Artamonov</Authors>
         <Description>Allure.Xunit.StepAttribute</Description>
@@ -16,7 +16,7 @@
 
     <ItemGroup>
         <PackageReference Include="Allure.XUnit" Version="2.0.0" />
-        <PackageReference Include="MethodBoundaryAspect.Fody" Version="2.0.138" />
+        <PackageReference Include="MethodBoundaryAspect.Fody" Version="2.0.145" />
     </ItemGroup>
 
 </Project>
