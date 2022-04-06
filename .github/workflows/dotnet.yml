@@ -1,0 +1,27 @@
+name: build
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: 6.0.x
+    - name: Build
+      run: dotnet build -c Release
+    - name: Pack
+      if: github.ref == 'refs/heads/main'
+      run: dotnet pack -c Release --no-build --include-source
+    - name: Publish the package to nuget.org
+      if: github.ref == 'refs/heads/main'
+      run: dotnet nuget push */bin/Release/*.nupkg -k $NUGET_API_KEY -s https://api.nuget.org/v3/index.json --skip-duplicate
+      env:
+        NUGET_API_KEY: ${{ secrets.STEP_EXTENSIONS_NUGET_API }}
