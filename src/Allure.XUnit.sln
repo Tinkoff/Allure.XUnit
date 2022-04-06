@@ -10,7 +10,6 @@ ProjectSection(SolutionItems) = preProject
 	..\.gitignore = ..\.gitignore
 	..\LICENSE = ..\LICENSE
 	..\Readme.md = ..\Readme.md
-	..\.drone.yml = ..\.drone.yml
 	..\.github\workflows\dotnet.yml = ..\.github\workflows\dotnet.yml
 EndProjectSection
 EndProject
