@@ -11,6 +11,10 @@ namespace Allure.Xunit.Attributes
             Overwrite = overwrite;
         }
 
+        public AllureTagAttribute(params string[] tags) : this(tags, false)
+        {
+        }
+
         internal string[] Tags { get; }
     }
 }
