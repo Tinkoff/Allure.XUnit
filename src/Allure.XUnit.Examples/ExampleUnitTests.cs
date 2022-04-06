@@ -10,7 +10,7 @@ using Xunit;
 namespace Allure.XUnit.Examples
 {
     [AllureOwner("Tinkoff")]
-    [AllureTag(new[] {"TAG-ALL"})]
+    [AllureTag("TAG-ALL")]
     [AllureEpic("TestEpic")]
     [AllureParentSuite("AllTests")]
     [AllureSuite("Suite Name")]
@@ -32,7 +32,7 @@ namespace Allure.XUnit.Examples
         [AllureXunit(DisplayName = "Test that 1 is not equals 1")]
         [AllureDescription("My long test description; Lorem ipsum dolor sit amet.")]
         [AllureFeature("qwerty", "123")]
-        [AllureTag(new[] {"TAG-1"})]
+        [AllureTag("TAG-1")]
         [AllureIssue("ISSUE-1")]
         public void Test1()
         {
