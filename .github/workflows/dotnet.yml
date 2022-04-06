@@ -18,10 +18,10 @@ jobs:
     - name: Build
       run: dotnet build -c Release src
     - name: Pack
-      if: github.ref == 'refs/heads/main'
+      if: github.ref == 'refs/heads/master'
       run: dotnet pack -c Release --no-build --include-source src
     - name: Publish the package to nuget.org
-      if: github.ref == 'refs/heads/main'
+      if: github.ref == 'refs/heads/master'
       run: dotnet nuget push src/*/bin/Release/*.nupkg -k $NUGET_API_KEY -s https://api.nuget.org/v3/index.json --skip-duplicate
       env:
         NUGET_API_KEY: ${{ secrets.STEP_EXTENSIONS_NUGET_API }}
