@@ -10,7 +10,7 @@ ProjectSection(SolutionItems) = preProject
 	..\.gitignore = ..\.gitignore
 	..\LICENSE = ..\LICENSE
 	..\Readme.md = ..\Readme.md
-	..\.drone.yml = ..\.drone.yml
+	..\.github\workflows\dotnet.yml = ..\.github\workflows\dotnet.yml
 EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Allure.Xunit.StepExtensions", "Allure.Xunit.StepExtensions\Allure.Xunit.StepExtensions.csproj", "{8A58AA94-F107-44C0-A415-6E5440CA9AF9}"

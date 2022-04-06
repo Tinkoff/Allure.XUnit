@@ -1,6 +1,6 @@
 # Allure.XUnit
 
-[![Build Status](https://cloud.drone.io/api/badges/TinkoffCreditSystems/Allure.XUnit/status.svg)](https://cloud.drone.io/TinkoffCreditSystems/Allure.XUnit)
+[![build](https://github.com/Tinkoff/Allure.XUnit/actions/workflows/dotnet.yml/badge.svg)](https://github.com/Tinkoff/Allure.XUnit/actions/workflows/dotnet.yml)
 [![Nuget](https://img.shields.io/nuget/v/Allure.XUnit)](https://www.nuget.org/packages/Allure.XUnit/)
 
 Allure.XUnit is library for display xunit tests in Allure report.
