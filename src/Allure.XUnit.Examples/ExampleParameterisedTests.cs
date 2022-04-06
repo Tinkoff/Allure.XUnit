@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using System.IO;
 using Allure.Xunit.Attributes;
 using Allure.XUnit.Examples.TestData;
