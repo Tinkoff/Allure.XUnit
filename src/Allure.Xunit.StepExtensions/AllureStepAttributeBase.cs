@@ -50,12 +50,22 @@ namespace Allure.Xunit.StepAttribute
 
             static Type GetTaskType(Type type)
             {
-                return type != null && (type == typeof(Task) ||
-                                        (type.IsGenericType && type.GetGenericTypeDefinition() == typeof(Task<>)) ||
-                                        type == typeof(ValueTask) ||
-                                        (type.IsGenericType && type.GetGenericTypeDefinition() == typeof(ValueTask<>)))
-                    ? type
-                    : GetTaskType(type.BaseType);
+                while (true)
+                {
+                    if (type == null)
+                    {
+                        return null;
+                    }
+
+                    if (type == typeof(Task) ||
+                        type.IsGenericType && type.GetGenericTypeDefinition() == typeof(Task<>) ||
+                        type == typeof(ValueTask) ||
+                        type.IsGenericType && type.GetGenericTypeDefinition() == typeof(ValueTask<>))
+                    {
+                        return type;
+                    }
+                    type = type.BaseType;
+                }
             }
 
             var taskType = GetTaskType(arg.ReturnValue.GetType());
