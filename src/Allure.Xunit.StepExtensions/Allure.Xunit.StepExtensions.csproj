@@ -4,7 +4,7 @@
         <IsPackable>true</IsPackable>
         <TargetFrameworks>net5.0;net6.0</TargetFrameworks>
         <Company>Tinkoff</Company>
-        <PackageVersion>2.0.0</PackageVersion>
+        <PackageVersion>2.0.1</PackageVersion>
         <RootNamespace>Allure.Xunit.StepAttribute</RootNamespace>
         <Authors>Ruslan Artamonov</Authors>
         <Description>Allure.Xunit.StepAttribute</Description>
