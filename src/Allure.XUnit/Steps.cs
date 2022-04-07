@@ -112,7 +112,7 @@ namespace Allure.Xunit
         public static T Step<T>(string name, Func<T> action)
         {
             StartStep(name);
-            return Execute(action);
+            return Execute(name, action);
         }
 
         public static void Step(string name, Action action)
@@ -147,7 +147,7 @@ namespace Allure.Xunit
         public static T Before<T>(string name, Func<T> action)
         {
             StartBeforeFixture(name);
-            return Execute(action);
+            return Execute(name, action);
         }
 
         public static void Before(string name, Action action)
@@ -177,7 +177,7 @@ namespace Allure.Xunit
         public static T After<T>(string name, Func<T> action)
         {
             StartAfterFixture(name);
-            return Execute(action);
+            return Execute(name, action);
         }
 
         public static void After(string name, Action action)
@@ -215,17 +215,17 @@ namespace Allure.Xunit
             return result;
         }
 
-        private static T Execute<T>(Func<T> action)
+        private static T Execute<T>(string name, Func<T> action)
         {
             T result;
             try
             {
                 result = action();
             }
-            catch (Exception)
+            catch (Exception e)
             {
                 FailStep();
-                throw;
+                throw new StepFailedException(name, e);
             }
 
             PassStep();
