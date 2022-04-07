@@ -24,8 +24,7 @@ namespace Allure.Xunit
                var dataAttribute = item.TestMethod.Method
                    .GetCustomAttributes(typeof(DataAttribute)).FirstOrDefault() as IReflectionAttributeInfo;
 
-               var memberDataAttribute = dataAttribute?.Attribute as MemberDataAttribute;
-               if (memberDataAttribute is not null && item.TestMethodArguments is null)
+               if (dataAttribute?.Attribute is DataAttribute memberDataAttribute && item.TestMethodArguments is null)
                {
                    var argumentSets = memberDataAttribute
                        .GetData(item.TestMethod.Method.ToRuntimeMethod());
