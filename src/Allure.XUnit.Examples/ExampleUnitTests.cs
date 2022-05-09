@@ -61,5 +61,12 @@ namespace Allure.XUnit.Examples
         {
             Assert.True(!false);
         }
+
+        [AllureXunit(DisplayName = "Test mapped to existing test case #1 in allure")]
+        [AllureAllureId("1")]
+        public void TestAllureIdMapping()
+        {
+            Assert.True(true);
+        }
     }
 }
