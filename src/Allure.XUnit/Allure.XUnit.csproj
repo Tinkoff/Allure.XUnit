@@ -8,8 +8,8 @@
         <Title>Allure.XUnit</Title>
         <Authors>Shumakov Ivan</Authors>
         <Description>Allure.XUnit</Description>
-        <PackageProjectUrl>https://github.com/TinkoffCreditSystems/Allure.XUnit</PackageProjectUrl>
-        <RepositoryUrl>https://github.com/TinkoffCreditSystems/Allure.XUnit</RepositoryUrl>
+        <PackageProjectUrl>https://github.com/Tinkoff/Allure.XUnit</PackageProjectUrl>
+        <RepositoryUrl>https://github.com/Tinkoff/Allure.XUnit</RepositoryUrl>
         <PackageTags>allure; xunit;</PackageTags>
         <LangVersion>9</LangVersion>
     </PropertyGroup>
