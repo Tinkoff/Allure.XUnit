@@ -22,7 +22,7 @@ Allure.XUnit supports .NET Core 2.0 and later.
 * AllureLink
 * AllureEpic
 * AllureLabel
-* AllureAllureId
+* AllureId
 * AllureXunitTheory - attribute for display parametrized tests. Use ```InlineData```, ```MemberData```, ```ClassData```,
   XUnit attributes for pass parameters.
 
@@ -49,7 +49,7 @@ Most of the attributes can be used both on methods and classes.
 | AllureEpic        |  x  |  x  |
 | AllureLabel       |  x  |  x  |
 | AllureXunitTheory |  x  |     |
-| AllureAllureId    |  x  |     |
+| AllureId          |  x  |     |
 
 To override attribute value you can use `overwrite` param in attribute definition.
 In other case multiple values will be written in test results.

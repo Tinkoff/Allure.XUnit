@@ -7,9 +7,9 @@ namespace Allure.Xunit.Attributes
     /// https://docs.qameta.io/allure-testops/ecosystem/intellij-plugin/#link-tests-in-ide-to-tests-cases-in-allure-testops-via-allureid
     /// </summary>
     [AttributeUsage(AttributeTargets.Method)]
-    public class AllureAllureIdAttribute : Attribute, IAllureInfo
+    public class AllureIdAttribute : Attribute, IAllureInfo
     {
-        public AllureAllureIdAttribute(string allureId)
+        public AllureIdAttribute(string allureId)
         {
             AllureId = allureId;
         }
