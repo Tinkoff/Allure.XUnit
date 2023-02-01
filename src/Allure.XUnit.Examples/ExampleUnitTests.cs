@@ -6,6 +6,7 @@ using Allure.Commons;
 using Allure.Xunit;
 using Allure.Xunit.Attributes;
 using Xunit;
+using Xunit.Abstractions;
 
 namespace Allure.XUnit.Examples
 {
@@ -20,15 +21,18 @@ namespace Allure.XUnit.Examples
     [AllureLink("Tinkoff", "https://tinkoff.ru")]
     public class ExampleUnitTests : IDisposable
     {
+        private readonly ITestOutputHelper _testOutputHelper;
+
         public void Dispose()
         {
         }
 
-        public ExampleUnitTests()
+        public ExampleUnitTests(ITestOutputHelper testOutputHelper)
         {
+            _testOutputHelper = testOutputHelper;
             Environment.CurrentDirectory = Path.GetDirectoryName(GetType().Assembly.Location);
         }
-    
+
         [AllureXunit(DisplayName = "Test that 1 is not equals 1")]
         [AllureDescription("My long test description; Lorem ipsum dolor sit amet.")]
         [AllureFeature("qwerty", "123")]
@@ -52,7 +56,7 @@ namespace Allure.XUnit.Examples
         [AllureXunit(DisplayName = "Another Test")]
         public void Test3()
         {
-            Assert.Empty(new List<int>() {1, 2, 3});
+            Assert.Empty(new List<int>() {1,2,3});
         }
 
         [AllureXunit]
@@ -63,10 +67,23 @@ namespace Allure.XUnit.Examples
         }
 
         [AllureXunit(DisplayName = "Test mapped to existing test case #1 in allure")]
-        [AllureId("1")]
         public void TestAllureIdMapping()
         {
             Assert.True(true);
+        }
+
+        [AllureXunit(DisplayName = "Test output is logged for success test")]
+        public void TestStandardOutputSavedToAllureForSuccessTest()
+        {
+            _testOutputHelper.WriteLine("This output of success test should be visible in IDE and logged in allure-result/*result.json");
+            Assert.True(true);
+        }
+
+        [AllureXunit(DisplayName = "Test output is logged for failed test")]
+        public void TestStandardOutputSavedToAllureForFailedTest()
+        {
+            _testOutputHelper.WriteLine("This output of failed test should be visible in IDE and in logged allure-result/*result.json");
+            Assert.False(true, "This failed assert is logged too along with previous output");
         }
     }
 }
