@@ -12,6 +12,7 @@
         <RepositoryUrl>https://github.com/Tinkoff/Allure.XUnit</RepositoryUrl>
         <PackageTags>allure; xunit;</PackageTags>
         <LangVersion>9</LangVersion>
+        <IsTestProject>false</IsTestProject>
     </PropertyGroup>
 
     <ItemGroup>
