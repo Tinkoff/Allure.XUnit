@@ -64,7 +64,8 @@ namespace Allure.Xunit
 
             var statusDetails = testResults.TestResult.statusDetails ??= new();
             statusDetails.trace = string.Join('\n', testFailed.StackTraces);
-            statusDetails.message = string.Join('\n', testFailed.Messages);
+            var mergedMessagedAndOutput = testFailed.Messages.Append(testFailed.Output);
+            statusDetails.message = string.Join('\n', mergedMessagedAndOutput);
             testResults.TestResult.status = Status.failed;
         }
 
