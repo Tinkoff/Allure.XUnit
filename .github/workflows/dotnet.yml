@@ -50,7 +50,7 @@ jobs:
         comment_mode: off
 
     - name: Upload allure results
-        uses: actions/upload-artifact@v3
-        with:
-          name: allure-results
-          path: **/allure-results/*.json
+      uses: actions/upload-artifact@v3
+      with:
+        name: allure-results
+        path: **/allure-results/*.json
