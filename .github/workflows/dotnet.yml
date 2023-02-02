@@ -38,4 +38,4 @@ jobs:
     - name: Build
       run: dotnet build -c Release src
     - name: Test
-      run: dotnet test src **Examples --no-build --verbosity normal
+      run: dotnet test src --no-build --verbosity normal
