@@ -48,9 +48,8 @@ jobs:
       with:
         trx_files: "**/*.trx"
         comment_mode: off
-
     - name: Upload allure results
       uses: actions/upload-artifact@v3
       with:
         name: allure-results
-        path: **/allure-results/*.json
+        path: src/**/allure-results/*.json
