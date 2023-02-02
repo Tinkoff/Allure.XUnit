@@ -40,7 +40,6 @@ jobs:
     - name: Test
       run: dotnet test src --no-build --verbosity normal --logger=trx
     - name: Publish Test Results
-       uses: EnricoMi/publish-unit-test-result-action@v2
-      if: always()
+      uses: EnricoMi/publish-unit-test-result-action@v2
       with:
         xunit_files: "TestResults/*.xml"
