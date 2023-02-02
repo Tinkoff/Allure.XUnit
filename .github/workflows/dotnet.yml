@@ -4,6 +4,9 @@ on:
   push:
   pull_request:
 
+permissions:
+  checks: write
+
 jobs:
   build:
 
@@ -43,4 +46,5 @@ jobs:
       uses: EnricoMi/publish-unit-test-result-action@v2
       if: always()
       with:
-        xunit_files: "TestResults/*.xml"
+        trx_files: "TestResults/*.xml"
+        comment_mode: off
