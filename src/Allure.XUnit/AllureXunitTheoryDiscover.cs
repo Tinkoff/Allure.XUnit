@@ -21,27 +21,23 @@ namespace Allure.Xunit
 
             foreach (var item in testCases)
             {
-               var dataAttribute = item.TestMethod.Method
-                   .GetCustomAttributes(typeof(DataAttribute)).FirstOrDefault() as IReflectionAttributeInfo;
+                var dataAttribute = item.TestMethod.Method
+                    .GetCustomAttributes(typeof(DataAttribute)).FirstOrDefault() as IReflectionAttributeInfo;
 
-               if (dataAttribute?.Attribute is DataAttribute memberDataAttribute && item.TestMethodArguments is null)
-               {
-                   var argumentSets = memberDataAttribute
-                       .GetData(item.TestMethod.Method.ToRuntimeMethod());
+                if (dataAttribute?.Attribute is DataAttribute memberDataAttribute && item.TestMethodArguments is null)
+                {
+                    var argumentSets = item.TestMethodArguments;
 
-                   foreach (var arguments in argumentSets)
-                   {
-                       var testCase  = new AllureXunitTestCase(DiagnosticMessageSink, discoveryOptions.MethodDisplayOrDefault(),
-                           TestMethodDisplayOptions.None, testMethod, arguments);
-                       yield return testCase;
-                   }
-               }
-               else
-               {
-                   var testCase = new AllureXunitTestCase(DiagnosticMessageSink, discoveryOptions.MethodDisplayOrDefault(),
-                       TestMethodDisplayOptions.None, testMethod, item.TestMethodArguments);
-                   yield return testCase;
-               }
+                    var testCase = new AllureXunitTestCase(DiagnosticMessageSink, discoveryOptions.MethodDisplayOrDefault(),
+                        TestMethodDisplayOptions.None, testMethod, argumentSets);
+                    yield return testCase;
+                }
+                else
+                {
+                    var testCase = new AllureXunitTestCase(DiagnosticMessageSink, discoveryOptions.MethodDisplayOrDefault(),
+                        TestMethodDisplayOptions.None, testMethod, item.TestMethodArguments);
+                    yield return testCase;
+                }
             }
         }
     }
